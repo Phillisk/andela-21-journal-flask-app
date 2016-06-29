@@ -1,36 +1,83 @@
 {% extends "main/base.html" %}
 {% block content %}
-    <div class="row-fluid">
-        <div class="col-lg-3 left-side">
-            {% block left_content %}
-                <h3>{{ user.username }}'s profile page</h3>
+    <div class="row  bg-primary">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center">
 
-                <ul class="list-group">
-                    <li class="list-group-item"><b>First Name: </b>{{ user.firstname|title }}</li>
-                    <li class="list-group-item"><b>Last Name: </b>{{ user.lastname|title }}</li>
-                    <li class="list-group-item"><b>Email: </b>{{ user.email|lower }} </li>
-                </ul>
-            {% endblock %}
+        <div>
+            <a class="btn btn-primary" href="{{ url_for('main.JournalEntry') }}"> New Entry</a>
         </div>
-        <div id="center-side-id4" class="col-lg-6 center-side">
-            {% block center_content %}
-                <div class="btn-group">
-                    <a class="btn btn-primary btn-group-justified" href="{{ url_for('main.JournalEntry') }}"> New Entry</a>
+        <hr>
+            <div >
+                    {% if g.user.is_authenticated %}
+                        <form class="form-group" action="{{ url_for('main.search') }}" method="post"
+                              name="search">
+                            {{ g.search_form.hidden_tag() }} {{ g.search_form.search(size=17) }}
+                            <input class="btn btn-success btn-sm" type="submit" value="Search">
+                        </form>
+
+
+                    {% endif %}
                 </div>
-                {% for entry in entries %}
-                    <div class="panel panel-success">
-                        <div class="panel-heading"><a href="{{ url_for('main.view_entry',id=entry.id) }}"><b>{{ entry.title|upper }}</b></a></div>
-                        <div class="panel-body">{{ entry.body|truncate }}</div>
-                        <div class="panel-footer"><i><small>{{ entry.tags }}</small> {{ entry.date_created }}</i></div>
-                    </div>
-                {% endfor %}
-            {% endblock %}
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+    {% for entry in entries %}
+        <div class="col-md-3">
+
+{#        <img class="card-img-top" data-src="..." alt="Card image cap">#}
+        <div class="card card-block">
+{#            <a class="card-title" href="{{ url_for('main.view_entry',id=entry.id) }}">{{ entry.title }} </a>#}
+            <h4 class="card-header">{{ entry.title }}</h4>
+            <p class="card-text">{{ entry.body|truncate }}</p>
+            <p class="card-text"><small class="text-muted">Last updated {{ entry.date_modified }}</small></p>
+
+            <a href="{{ url_for('main.update_entry', id = entry.id) }}" class="card-link"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
+            <a href="{{ url_for('main.delete', id=entry.id) }}" class="card-link"> <i class="fa fa-trash" aria-hidden="true"></i> </a>
         </div>
 
-        <div class="col-lg-3 right-side">
-            {% block right_content %}
-                {{ super() }}
-            {% endblock %}
         </div>
+{#        <ul class="list-group list-group-flush">#}
+{#            <li class="list-group-item">Cras justo odio</li>#}
+{#            <li class="list-group-item">Dapibus ac facilisis in</li>#}
+{#            <li class="list-group-item">Vestibulum at eros</li>#}
+{#        </ul>#}
+
+
+    {% endfor %}
     </div>
+{#    <div class="row-fluid">#}
+{#        <div class="col-lg-3 left-side">#}
+{#            {% block left_content %}#}
+{#                <h3>{{ user.username }}'s profile page</h3>#}
+{##}
+{#                <ul class="list-group">#}
+{#                    <li class="list-group-item"><b>First Name: </b>{{ user.firstname|title }}</li>#}
+{#                    <li class="list-group-item"><b>Last Name: </b>{{ user.lastname|title }}</li>#}
+{#                    <li class="list-group-item"><b>Email: </b>{{ user.email|lower }} </li>#}
+{#                </ul>#}
+{#            {% endblock %}#}
+{#        </div>#}
+{#        <div id="center-side-id4" class="col-lg-6 center-side">#}
+{#            {% block center_content %}#}
+{#                <div class="btn-group">#}
+{#                    <a class="btn btn-primary btn-group-justified" href="{{ url_for('main.JournalEntry') }}"> New Entry</a>#}
+{#                </div>#}
+{#                {% for entry in entries %}#}
+{#                    <div class="panel panel-success">#}
+{#                        <div class="panel-heading"><a href="{{ url_for('main.view_entry',id=entry.id) }}"><b>{{ entry.title|upper }}</b></a></div>#}
+{#                        <div class="panel-body">{{ entry.body|truncate }}</div>#}
+{#                        <div class="panel-footer"><i><small>{{ entry.tags }}</small> {{ entry.date_created }}</i></div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            {% endblock %}#}
+{#        </div>#}
+{##}
+{#        <div class="col-lg-3 right-side">#}
+{#            {% block right_content %}#}
+{#                {{ super() }}#}
+{#            {% endblock %}#}
+{#        </div>#}
+{#    </div>#}
 {% endblock %}
