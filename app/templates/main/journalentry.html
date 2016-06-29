@@ -2,10 +2,7 @@
 
 {% block content %}
     <div class="row-fluid">
-        <div class="col-lg-3">
-        </div>
-        <div id="center-side-id4" class="col-lg-6 center-side">
-            {% block center_content %}
+
                 <div class="page-header text-center"><h3><b>New Entry</b></h3></div>
                 <div class="panel panel-body">
                 <form action="{{ url_for('main.JournalEntry') }}" method=post>
@@ -34,13 +31,6 @@
                 {{ form.submit }}
                 </form>
                 </div>
-            {% endblock %}
-        </div>
-
-        <div class="col-lg-3">
-            {% block right_content %}
-                {{ super() }}
-            {% endblock %}
-        </div>
     </div>
+
 {% endblock %}
